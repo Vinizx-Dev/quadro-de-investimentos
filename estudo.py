@@ -1,0 +1,52 @@
+                             	 #  Ψ  Vini_zx10  Ψ
+								# ------------------
+import yfinance as yf
+
+continuar = "s"
+
+
+while continuar.lower() == "s":	
+	try:
+
+		#AREA DE DEFINIÇAO
+		nome = input("Usuario: ")
+
+		#relacionamento da açao com os dados externos
+		ativo = input("Qual ação deseja cotar? ").upper().strip()
+		quantidade = float(input("Quantas cotas deseja comprar? "))
+		
+		#CONDIÇAO QUE DERTERMINA QUE SEMPRE HAJA O .SA NO FINAL DA AÇAO PARA NAO DAR ERRO 
+		if not ativo.endswith(".SA"):
+			ticker_final = f"{ativo}.SA"
+		else:
+			ticker_final = ativo
+
+		#BUSCA O PRECO
+		print(f"Buscando dados de {ticker_final}...")
+		acao = yf.Ticker(ticker_final)
+		#DEFINE O VALOR DO PRECO COM BASE NA COTAÇAO ATUAL
+		preco = acao.info.get("currentPrice") or acao.info.get("regularMarketPrice")
+
+		if preco is None:
+			print(f"X Erro: nao foi possivel encontrar o preço de {ativo}. ")
+			continue
+	
+		valor = preco*quantidade
+	
+
+		#AREA DE EXECUÇAO
+		print(f"\nTotal a ser investido é R${valor:.2f}")
+	except ValueError:
+		print("\n[ERRO] Por favor, use apenas números para preço e quantidade.")
+
+	continuar = input("deseja continuar? (s/n): ")
+	
+	# PAINEL DE INFORMAÇOES
+print("="*40)
+print(f"{'PAINEL DE DADOS':>26}")
+print("="*40)
+print(f"usuario: {nome}")
+print(f"Ativo: {ativo}")
+print(f"Saldo aplicado: R${valor:.2f}")
+
+input("\nsistema encerrado. pressione ENTER para sair...")
