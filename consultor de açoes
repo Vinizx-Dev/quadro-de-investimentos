@@ -4,7 +4,6 @@ import yfinance as yf
 
 continuar = "s"
 
-
 while continuar.lower() == "s":	
 	try:
 
